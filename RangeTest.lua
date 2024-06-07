@@ -14,14 +14,14 @@ while loop ~= 0 do
 	if timeout ~= 0 then
 		local eventData = {os.pullEvent()}
 		local event = eventData[1]
+		os.startTimer(3)
     	if event == "modem_message" then
 			print(tostring(eventData[5]))
 			loop = loop - 1
 			
 		else if event ~= "modem_message"
-			sleep(1)
 			timout = timeout -1
-			print("No Response" .. textutils.formatTime(os.time()))
+			print("No Response " .. textutils.formatTime(os.time()))
 			end
 			
 		end
