@@ -14,8 +14,6 @@ while loop ~= 0 do
 	if timeout ~= 0 then
 		local eventData = {os.pullEvent()}
 		local event = eventData[1]
-	else
-		loop = 0
 		
     	if event == "modem_message" then
 			print(tostring(eventData[5]))
