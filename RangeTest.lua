@@ -15,14 +15,14 @@ while loop ~= 0 do
 	timeout = 5
 	
 	while timeout ~= 0 do
-    	if event == "modem_message"
+    	if event == "modem_message" then
 			print(toString(event[5]))
 			loop = loop - 1
 			
 		else
 			sleep(1)
 			timout = timeout -1
-			if timeout == 0
+			if timeout == 0 then
 				print("No Response" .. textutils.formatTime(os.time()))
 	end
     
