@@ -16,7 +16,7 @@ while loop ~= 0 do
 	
 	while timeout ~= 0 do
     	if event == "modem_message" then
-			print(toString(event[5]))
+			print(tostring(eventData[5]))
 			loop = loop - 1
 			
 		else
