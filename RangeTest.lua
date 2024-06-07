@@ -18,10 +18,11 @@ while loop ~= 0 do
 			print(tostring(eventData[5]))
 			loop = loop - 1
 			
-		else
+		else if event ~= "modem_message"
 			sleep(1)
 			timout = timeout -1
 			print("No Response" .. textutils.formatTime(os.time()))
+			end
 			
 		end
 	end
