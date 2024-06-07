@@ -1,4 +1,4 @@
-local modem = perpheral.find("modem")
+local modem = peripheral.find("modem")
 modem.open(os.computerID())
 modem.transmit(15, os.computerID(), "Waterwheel")
 
@@ -7,4 +7,4 @@ repeat
   event, side, channel, replyChannel, message, distance = os.pullEvent("modem_message")
 until channel == os.computerID()
 
-print("Receiving...\n")
+print("Receiving...\n" .. tostring(message))
