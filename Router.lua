@@ -1,18 +1,18 @@
 local modem = peripheral.find("modem")
 local rtport = 1000
- 
+local iptablePath = "/PATH/TO/IPTABLE" --setting the path by variable allows us to run Router.lua in the startup folder and put the iptable elsewhere, only use absolute path
 modem.open(rtport) -- traffic routing port
  
  
 local function writeIP(label, id) -- writes new label/service and id to table
-    local file = io.open("iptable", "a+")
+    local file = io.open(iptablePath, "a+")
     file:write(tostring(label .. "#" .. id .. "\n"))
     print("Registered " .. label .. id)
     file:close()
 end
  
 local function fetchIP(label) -- grabs listed id of given label/service and returns id or false if it does not exist
-    local file = io.open("iptable","r")
+    local file = io.open(iptablePath,"r")
     if not file then
         print("Error opening file.")
         return false
