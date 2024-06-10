@@ -1,26 +1,27 @@
 local modem = peripheral.find("modem")
 local rtport = 1000
-local iptablePath = "/PATH/TO/IPTABLE" --setting the path by variable allows us to run Router.lua in the startup folder and put the iptable elsewhere, only use absolute path
+local tablePath = "/iptable"
+ 
 modem.open(rtport) -- traffic routing port
  
  
 local function writeIP(label, id) -- writes new label/service and id to table
-    local file = io.open(iptablePath, "a+")
+    local file = io.open(tablePath, "a+")
     file:write(tostring(label .. "#" .. id .. "\n"))
     print("Registered " .. label .. id)
     file:close()
 end
  
-local function fetchIP(label) -- grabs listed id of given label/service and returns id or false if it does not exist
-    local file = io.open(iptablePath,"r")
+local function fetchIP(query) -- grabs listed id of given label/service and returns id or false if it does not exist
+    local file = io.open(tablePath,"r")
     if not file then
         print("Error opening file.")
         return false
     end
     for line in file:lines() do
         line = line:gsub("\n","")
-        if line:match("^" .. label:gsub("%-", "%%-") .. "#%d+$") then
-            local id = line:match("#(%d+)$")
+        local label, id = line:match("^([^#]+)#(%d+)$")
+        if label == query or id == query then
             file:close()
             return id
         end
@@ -34,7 +35,7 @@ while true do
     os.setAlarm(.5)
     if event[1] == "modem_message" then
         local request = tostring(event[5])
-        local label, message = request:match("#([%w^#]+)#(.+)")
+        local label, message = request:match("#(.+)#(.+)")
         local result = fetchIP(label)
         if result == false then
             if message == "register" then
@@ -46,7 +47,7 @@ while true do
         else
             modem.transmit(tonumber(result), event[4], message)
             print("Successfully routed packet from computer " .. event[4] .. " to computer " .. result .. " with message:\n" .. message)
+           -- print("Packet Breakdown: " .. tonumber(result) .. " " .. event[4] .. " " .. message .. "\n")
         end
     end
 end
- 
